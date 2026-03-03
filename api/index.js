@@ -12,7 +12,7 @@ const CLAUDE_API_KEY = "sk-ant-api03-gEGs5qFRIxW7mn_wXjrlYojXNDeIlLKgVaQh0hBQHZS
 app.post('/api/analyze', async (req, res) => {
   try {
     const { processText, apiKey } = req.body;
-    const key = apiKey || CLAUDE_API_KEY;
+    const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY || "";
 
     if (!processText) {
       return res.status(400).json({ error: 'Process text required' });
