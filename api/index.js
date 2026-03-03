@@ -7,15 +7,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const CLAUDE_API_KEY = "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";
-
 app.post('/api/analyze', async (req, res) => {
   try {
     const { processText, apiKey } = req.body;
-    const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY || "";
+    const key = apiKey || process.env.CLAUDE_API_KEY;
 
     if (!processText) {
       return res.status(400).json({ error: 'Process text required' });
+    }
+
+    if (!key) {
+      return res.status(400).json({ error: 'API key required' });
     }
 
     const prompt = `Analyze this Turkish business process and respond ONLY with valid JSON (no markdown):
@@ -72,22 +74,4 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-```
-
-4. **Commit changes** tıkla
-
----
-
-## 📝 **Dosya 3: `.gitignore`**
-
-1. **"Add file"** → **"Create new file"**
-2. **Filename:** `.gitignore`
-3. **Kod:**
-```
-node_modules/
-.env
-.vercel
+module.exports = app;
